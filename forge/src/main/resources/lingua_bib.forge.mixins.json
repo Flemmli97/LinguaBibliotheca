@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "io.github.flemmli97.linguabib.forge.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+    "PathResourcePackMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

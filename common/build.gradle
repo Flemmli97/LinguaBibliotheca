@@ -1,0 +1,55 @@
+repositories {
+    mavenLocal()
+    maven {
+        name = 'Fabric-Permission-API'
+        url 'https://oss.sonatype.org/content/repositories/snapshots'
+    }
+    maven {
+        name = "FTB"
+        url = "https://maven.saps.dev/minecraft"
+    }
+}
+
+dependencies {
+    // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
+    // Do NOT use other classes from fabric loader
+    modImplementation "net.fabricmc:fabric-loader:${rootProject.loader_version}"
+
+    modImplementation "me.lucko:fabric-permissions-api:${fabric_permissions_api}"
+    modImplementation "dev.ftb.mods:ftb-ranks:${ftb_ranks}"
+}
+
+architectury {
+    common(rootProject.enabled_platforms.split(","))
+}
+
+sourceSets.main.resources {
+    srcDir "src/generated/resources"
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact(jar) {
+                classifier null
+                builtBy jar
+            }
+            artifact(sourcesJar) {
+                classifier "sources"
+                builtBy remapSourcesJar
+            }
+            artifactId project.archives_base_name
+            version project.version + "-common"
+        }
+    }
+
+    repositories {
+        maven {
+            url "https://gitlab.com/api/v4/projects/21830712/packages/maven"
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("GPR_USER")
+                password = project.findProperty("gpr.gitlab.token") ?: System.getenv("GPR_GITLAB_TOKEN")
+            }
+        }
+    }
+}

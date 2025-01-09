@@ -1,0 +1,22 @@
+modLoader="javafml"
+loaderVersion="[${loader_version},)"
+license="MIT"
+issueTrackerURL="https://github.com/Flemmli97/SimpleQuests/issues"
+[[mods]]
+modId="lingua_bib"
+version="${version}"
+displayName="Lingua Bibliotheca"
+authors="Flemmli97"
+description='''Server side translation API'''
+[[dependencies.lingua_bib]]
+modId="minecraft"
+mandatory=true
+versionRange="[${mcversion},)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.lingua_bib]]
+modId="forge"
+mandatory=true
+versionRange="[${forge_version},)"
+ordering="NONE"
+side="BOTH"
