@@ -16,6 +16,9 @@
   "entrypoints": {
     "main": [
       "io.github.flemmli97.linguabib.fabric.LinguaBibFabric"
+    ],
+    "client": [
+      "io.github.flemmli97.linguabib.fabric.client.LinguaBibFabricClient"
     ]
   },
   "mixins": [

@@ -69,7 +69,6 @@ public class ServerLangManager extends SimpleJsonResourceReloadListener {
     }
 
     private <T> T fetch(Map<String, Map<String, T>> data, String language, String key, T or) {
-        LinguaBib.LOGGER.error("fetching for {} {} {}", data, language, key);
         Map<String, T> entry = data.get(language);
         T value = entry != null ? entry.get(key) : null;
         if (value != null)
