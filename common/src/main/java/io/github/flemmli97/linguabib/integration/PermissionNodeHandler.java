@@ -8,9 +8,9 @@ import net.minecraft.server.level.ServerPlayer;
 
 public class PermissionNodeHandler {
 
-    public static final String cmdReload = "lingua_bib.command.reload";
-    public static final String cmdLanguage = "lingua_bib.command.language";
-    public static final String cmdTranslate = "lingua_bib.command.translate";
+    public static final String COMMAND_RELOAD = "lingua_bib.command.reload";
+    public static final String COMMAND_LANGUAGE = "lingua_bib.command.language";
+    public static final String COMMAND_TRANSLATE = "lingua_bib.command.translate";
 
     public static boolean perm(CommandSourceStack src, String perm) {
         return perm(src, perm, false);

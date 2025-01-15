@@ -15,9 +15,9 @@ public class LinguaCommands {
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher, boolean dedicated) {
         dispatcher.register(Commands.literal("lingua_bib")
-                .then(Commands.literal("reload").requires(src -> PermissionNodeHandler.perm(src, PermissionNodeHandler.cmdReload, true)).executes(LinguaCommands::reloadConfig))
-                .then(Commands.literal("lang").requires(src -> PermissionNodeHandler.perm(src, PermissionNodeHandler.cmdLanguage)).executes(LinguaCommands::language))
-                .then(Commands.literal("translate").requires(src -> PermissionNodeHandler.perm(src, PermissionNodeHandler.cmdTranslate, true))
+                .then(Commands.literal("reload").requires(src -> PermissionNodeHandler.perm(src, PermissionNodeHandler.COMMAND_RELOAD, true)).executes(LinguaCommands::reloadConfig))
+                .then(Commands.literal("lang").requires(src -> PermissionNodeHandler.perm(src, PermissionNodeHandler.COMMAND_LANGUAGE)).executes(LinguaCommands::language))
+                .then(Commands.literal("translate").requires(src -> PermissionNodeHandler.perm(src, PermissionNodeHandler.COMMAND_TRANSLATE, true))
                         .then(Commands.argument("translation", StringArgumentType.string())
                                 .executes(LinguaCommands::translate))));
     }

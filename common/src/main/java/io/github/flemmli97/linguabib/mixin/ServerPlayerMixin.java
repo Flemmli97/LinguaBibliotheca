@@ -16,6 +16,9 @@ public abstract class ServerPlayerMixin implements PlayerLanguageAccess {
     @Unique
     private String linguaBib$language = "en_us";
 
+    /**
+     * Why vanilla you no saving it...
+     */
     @Inject(method = "updateOptions", at = @At("TAIL"))
     private void onOptions(ServerboundClientInformationPacket packet, CallbackInfo ci) {
         this.linguaBib$language = packet.language();
