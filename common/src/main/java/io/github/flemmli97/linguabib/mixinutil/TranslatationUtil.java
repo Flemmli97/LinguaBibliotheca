@@ -8,7 +8,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
@@ -21,8 +21,8 @@ public class TranslatationUtil {
      * If the player has the mod on the client the client will handle translations
      */
     public static Component modifyComponent(Component orig) {
-        if (!LinguaBib.disableComponentMod && context != null && orig instanceof TranslatableComponent comp && !Platform.INSTANCE.hasRemote(context)) {
-            return new TranslatableComponent(ServerLangManager.INSTANCE.getTranslationFor(LanguageAPI.getPlayerLanguage(context), comp.getKey()), comp.getArgs()).setStyle(comp.getStyle());
+        if (!LinguaBib.disableComponentMod && context != null && orig.getContents() instanceof TranslatableContents trans && !Platform.INSTANCE.hasRemote(context)) {
+            return Component.translatable(ServerLangManager.INSTANCE.getTranslationFor(LanguageAPI.getPlayerLanguage(context), trans.getKey()), trans.getArgs()).setStyle(orig.getStyle());
         }
         return orig;
     }

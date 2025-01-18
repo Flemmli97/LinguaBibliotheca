@@ -1,19 +1,25 @@
 package io.github.flemmli97.linguabib.api;
 
+import com.google.common.hash.Hashing;
+import com.google.common.hash.HashingOutputStream;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import net.minecraft.data.DataGenerator;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
-import net.minecraft.data.HashCache;
-import org.apache.commons.lang3.text.translate.JavaUnicodeEscaper;
+import net.minecraft.data.PackOutput;
+import net.minecraft.util.GsonHelper;
 
-import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * Language Datagen provider
@@ -23,11 +29,11 @@ public abstract class ServerLangGen implements DataProvider {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
     private final Map<String, String> data = new LinkedHashMap<>();
-    private final DataGenerator gen;
+    private final PackOutput packOutput;
     private final String modid, locale;
 
-    public ServerLangGen(DataGenerator gen, String modid, String locale) {
-        this.gen = gen;
+    public ServerLangGen(PackOutput packOutput, String modid, String locale) {
+        this.packOutput = packOutput;
         this.modid = modid;
         this.locale = locale;
     }
@@ -35,10 +41,17 @@ public abstract class ServerLangGen implements DataProvider {
     protected abstract void addTranslations();
 
     @Override
-    public void run(HashCache cache) throws IOException {
-        this.addTranslations();
-        if (!this.data.isEmpty())
-            this.save(cache, this.data, this.gen.getOutputFolder().resolve("data/" + this.modid + "/lang/" + this.locale + ".json"));
+    public CompletableFuture<?> run(CachedOutput cache) {
+        return CompletableFuture.runAsync(() -> {
+            this.addTranslations();
+            if (!this.data.isEmpty()) {
+                try {
+                    this.save(cache, this.packOutput.getOutputFolder(PackOutput.Target.DATA_PACK).resolve(this.modid + "/lang/" + this.locale + ".json"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
@@ -46,19 +59,25 @@ public abstract class ServerLangGen implements DataProvider {
         return "Languages: " + this.locale;
     }
 
-    @SuppressWarnings("deprecation")
-    private void save(HashCache cache, Object object, Path target) throws IOException {
-        String data = GSON.toJson(object);
-        data = JavaUnicodeEscaper.outsideOf(0, 0x7f).translate(data); // Escape unicode after the fact so that it's not double escaped by GSON
-        String hash = DataProvider.SHA1.hashUnencodedChars(data).toString();
-        if (!Objects.equals(cache.getHash(target), hash) || !Files.exists(target)) {
-            Files.createDirectories(target.getParent());
-            try (BufferedWriter bufferedwriter = Files.newBufferedWriter(target)) {
-                bufferedwriter.write(data);
-            }
+    private void save(CachedOutput cache, Path target) throws IOException {
+        JsonObject json = new JsonObject();
+        for (Map.Entry<String, String> pair : this.data.entrySet()) {
+            json.addProperty(pair.getKey(), pair.getValue());
         }
+        saveTo(cache, json, target);
+    }
 
-        cache.putNew(target, hash);
+    @SuppressWarnings({"UnstableApiUsage", "deprecation"})
+    private static void saveTo(CachedOutput cachedOutput, JsonElement jsonElement, Path path) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        HashingOutputStream hashingOutputStream = new HashingOutputStream(Hashing.sha1(), byteArrayOutputStream);
+        OutputStreamWriter writer = new OutputStreamWriter(hashingOutputStream, StandardCharsets.UTF_8);
+        JsonWriter jsonWriter = new JsonWriter(writer);
+        jsonWriter.setSerializeNulls(false);
+        jsonWriter.setIndent("  ");
+        GsonHelper.writeValue(jsonWriter, jsonElement, null);
+        jsonWriter.close();
+        cachedOutput.writeIfNeeded(path, byteArrayOutputStream.toByteArray(), hashingOutputStream.hash());
     }
 
     public void add(String key, String value) {

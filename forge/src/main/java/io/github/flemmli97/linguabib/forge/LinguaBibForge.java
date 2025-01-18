@@ -60,7 +60,7 @@ public class LinguaBibForge {
     }
 
     public static void commands(RegisterCommandsEvent event) {
-        LinguaCommands.register(event.getDispatcher(), false);
+        LinguaCommands.register(event.getDispatcher());
     }
 
     private static <T> BiConsumer<T, Supplier<NetworkEvent.Context>> handlerClient(Consumer<T> handler) {

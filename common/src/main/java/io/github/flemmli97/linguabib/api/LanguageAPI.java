@@ -51,7 +51,7 @@ public class LanguageAPI {
 
     /**
      * See detailed explanation above.
-     * Formats the key to be used in a {@link net.minecraft.network.chat.TranslatableComponent}
+     * Formats the key to be used in a {@link net.minecraft.network.chat.Component#translatable}
      */
     public static List<String> getFormattedKeys(String language, String key) {
         int nums = getLineNumbers(language, key);

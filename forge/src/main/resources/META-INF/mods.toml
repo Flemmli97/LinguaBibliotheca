@@ -1,7 +1,7 @@
 modLoader="javafml"
 loaderVersion="[${loader_version},)"
 license="MIT"
-issueTrackerURL="https://github.com/Flemmli97/SimpleQuests/issues"
+issueTrackerURL="https://github.com/Flemmli97/LinguaBibliotheca/issues"
 [[mods]]
 modId="lingua_bib"
 version="${version}"

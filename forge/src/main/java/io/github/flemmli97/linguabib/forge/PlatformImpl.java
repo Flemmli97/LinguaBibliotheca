@@ -9,7 +9,7 @@ public class PlatformImpl implements Platform {
 
     @Override
     public boolean hasRemote(ServerPlayer player) {
-        return LinguaBibForge.DISPATCHER.isRemotePresent(player.connection.getConnection());
+        return LinguaBibForge.DISPATCHER.isRemotePresent(player.connection.connection);
     }
 
     @Override

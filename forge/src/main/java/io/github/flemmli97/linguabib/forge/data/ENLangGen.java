@@ -2,12 +2,12 @@ package io.github.flemmli97.linguabib.forge.data;
 
 import io.github.flemmli97.linguabib.LinguaBib;
 import io.github.flemmli97.linguabib.api.ServerLangGen;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 
 public class ENLangGen extends ServerLangGen {
 
-    public ENLangGen(DataGenerator gen) {
-        super(gen, LinguaBib.MODID, "en_us");
+    public ENLangGen(PackOutput packOutput) {
+        super(packOutput, LinguaBib.MODID, "en_us");
     }
 
     @Override
