@@ -1,19 +1,18 @@
 pluginManagement {
     repositories {
-        maven { url "https://maven.fabricmc.net/" }
-        maven { url "https://maven.architectury.dev/" }
         maven {
-            url = 'https://maven.minecraftforge.net/'
-            content {
-                excludeGroupByRegex "org.eclipse.*"
-            }
+            name = 'Fabric'
+            url = 'https://maven.fabricmc.net/'
         }
+        maven { url "https://maven.architectury.dev/" }
+        maven { url "https://repo1.maven.org/maven2/" }
+        maven { url "https://maven.minecraftforge.net/" }
         gradlePluginPortal()
     }
 }
 
 include("common")
 include("fabric")
-include("forge")
+include("neoforge")
 
 rootProject.name = "LinguaBibliotheca"

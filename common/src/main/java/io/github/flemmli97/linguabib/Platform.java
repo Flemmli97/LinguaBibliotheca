@@ -1,6 +1,6 @@
 package io.github.flemmli97.linguabib;
 
-import io.github.flemmli97.linguabib.network.Packet;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 
 public interface Platform {
@@ -11,5 +11,5 @@ public interface Platform {
 
     boolean hasRemote(ServerPlayer player);
 
-    void sendTo(Packet pkt, ServerPlayer player);
+    void sendTo(CustomPacketPayload pkt, ServerPlayer player);
 }

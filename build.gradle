@@ -7,7 +7,7 @@ buildscript {
 
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.4-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "1.6-SNAPSHOT" apply false
 }
 
 apply from: "https://raw.githubusercontent.com/Flemmli97/GradleScripts/mc-architectury-v1/changelog.gradle"
@@ -47,7 +47,7 @@ allprojects {
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
-        options.release = 17
+        options.release = project.hasProperty('jvm') ? rootProject.jvm : 21
     }
 
     java {

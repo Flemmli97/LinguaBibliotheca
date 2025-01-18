@@ -9,7 +9,7 @@ buildscript {
 }
 
 apply plugin: com.github.jengelman.gradle.plugins.shadow.ShadowPlugin
-apply from: "https://raw.githubusercontent.com/Flemmli97/GradleScripts/mc-architectury-v1/changelog.gradle"
+apply from: "https://raw.githubusercontent.com/Flemmli97/GradleScripts/mc-architectury-fabric-neoforge/changelog.gradle"
 
 architectury {
     platformSetupLoomIde()

@@ -88,6 +88,11 @@ public class ServerLangManager extends SimpleJsonResourceReloadListener {
     }
 
     @Override
+    protected Map<ResourceLocation, JsonElement> prepare(ResourceManager resourceManager, ProfilerFiller profiler) {
+        return super.prepare(resourceManager, profiler);
+    }
+
+    @Override
     protected void apply(Map<ResourceLocation, JsonElement> data, ResourceManager manager, ProfilerFiller profiler) {
         HashMap<String, Map<String, String>> translations = new HashMap<>();
         HashMap<String, Map<String, Integer>> multilineCounter = new HashMap<>();

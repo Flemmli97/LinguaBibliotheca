@@ -1,7 +1,9 @@
 modLoader="javafml"
 loaderVersion="[${loader_version},)"
 license="MIT"
-issueTrackerURL="https://github.com/Flemmli97/SimpleQuests/issues"
+issueTrackerURL="https://github.com/Flemmli97/LinguaBibliotheca/issues"
+[[mixins]]
+config="lingua_bib.mixins.json"
 [[mods]]
 modId="lingua_bib"
 version="${version}"
@@ -10,13 +12,13 @@ authors="Flemmli97"
 description='''Server side translation API'''
 [[dependencies.lingua_bib]]
 modId="minecraft"
-mandatory=true
+type="required"
 versionRange="[${mcversion},)"
 ordering="NONE"
 side="BOTH"
 [[dependencies.lingua_bib]]
-modId="forge"
-mandatory=true
+modId="neoforge"
+type="required"
 versionRange="[${forge_version},)"
 ordering="NONE"
 side="BOTH"
