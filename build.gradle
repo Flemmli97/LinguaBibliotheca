@@ -75,7 +75,7 @@ task publishAll {
 
 task buildToLocal(group: "publishing") {
     dependsOn cleanAll, buildAll, ":common:publishToMavenLocal", ":fabric:publishToMavenLocal", ":neoforge:publishToMavenLocal"
-    buildAll.mustRunAfter cleanAll
 }
 
+buildAll.dependsOn cleanAll
 publishAll.dependsOn buildAll
