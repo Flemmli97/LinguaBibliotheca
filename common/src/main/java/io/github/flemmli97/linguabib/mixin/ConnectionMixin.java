@@ -1,12 +1,9 @@
 package io.github.flemmli97.linguabib.mixin;
 
 import io.github.flemmli97.linguabib.mixinutil.TranslatationUtil;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.network.Connection;
-import net.minecraft.network.ConnectionProtocol;
-import net.minecraft.network.PacketListener;
-import net.minecraft.network.PacketSendListener;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,17 +14,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class ConnectionMixin {
 
     @Shadow
-    public abstract PacketListener getPacketListener();
+    private Channel channel;
 
-    @Inject(method = "doSendPacket", at = @At("HEAD"))
-    private void onStartSend(Packet<?> packet, PacketSendListener sendListener, ConnectionProtocol newProtocol, ConnectionProtocol currentProtocol, CallbackInfo ci) {
-        if (this.getPacketListener() instanceof ServerGamePacketListenerImpl impl) {
-            TranslatationUtil.context = impl.player;
-        }
-    }
-
-    @Inject(method = "doSendPacket", at = @At("TAIL"))
-    private void onEndSend(Packet<?> packet, PacketSendListener sendListener, ConnectionProtocol newProtocol, ConnectionProtocol currentProtocol, CallbackInfo ci) {
-        TranslatationUtil.context = null;
+    @Inject(method = "channelActive", at = @At("RETURN"))
+    private void onChannel(ChannelHandlerContext channelHandlerContext, CallbackInfo ci) {
+        if(this.channel != null)
+           this.channel.attr(TranslatationUtil.CONNECTION_ATTRIBUTE_KEY)
+                .set((Connection) (Object) this);
     }
 }

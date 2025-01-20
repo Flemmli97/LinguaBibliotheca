@@ -4,25 +4,42 @@ import io.github.flemmli97.linguabib.LinguaBib;
 import io.github.flemmli97.linguabib.Platform;
 import io.github.flemmli97.linguabib.api.LanguageAPI;
 import io.github.flemmli97.linguabib.data.ServerLangManager;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.util.AttributeKey;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.item.ItemStack;
 
 public class TranslatationUtil {
 
-    public static ServerPlayer context;
+    public static final AttributeKey<Connection> CONNECTION_ATTRIBUTE_KEY = AttributeKey.newInstance("linguabib:connection_ctx");
+    private static final ThreadLocal<ServerPlayer> CONTEXT = new ThreadLocal<>();
+
+    public static void handleEncode(ChannelHandlerContext ctx, boolean start) {
+        if (start) {
+            Connection listener = ctx.channel().attr(TranslatationUtil.CONNECTION_ATTRIBUTE_KEY).get();
+            if (listener.getPacketListener() instanceof ServerGamePacketListenerImpl impl) {
+                CONTEXT.set(impl.getPlayer());
+            }
+        } else {
+            CONTEXT.remove();
+        }
+    }
 
     /**
      * Modifies the component if the player does not have the mod on the client
      * If the player has the mod on the client the client will handle translations
      */
     public static Component modifyComponent(Component orig) {
-        if (!LinguaBib.disableComponentMod && context != null && orig.getContents() instanceof TranslatableContents trans && !Platform.INSTANCE.hasRemote(context)) {
-            return Component.translatable(ServerLangManager.INSTANCE.getTranslationFor(LanguageAPI.getPlayerLanguage(context), trans.getKey()), trans.getArgs()).setStyle(orig.getStyle());
+        ServerPlayer player = CONTEXT.get();
+        if (!LinguaBib.disableComponentMod && player != null && orig.getContents() instanceof TranslatableContents trans && !Platform.INSTANCE.hasRemote(player)) {
+            return Component.translatable(ServerLangManager.INSTANCE.getTranslationFor(LanguageAPI.getPlayerLanguage(player), trans.getKey()), trans.getArgs()).setStyle(orig.getStyle());
         }
         return orig;
     }
@@ -32,8 +49,9 @@ public class TranslatationUtil {
      * Resetting them in the currrent context will automatically localize the data
      */
     public static ItemStack modifyStack(ItemStack orig) {
+        ServerPlayer player = CONTEXT.get();
         CompoundTag tag;
-        if (!LinguaBib.disableComponentMod && context != null && !Platform.INSTANCE.hasRemote(context) && (tag = orig.getTag()) != null && tag.contains("display")) {
+        if (!LinguaBib.disableComponentMod && player != null && !Platform.INSTANCE.hasRemote(player) && (tag = orig.getTag()) != null && tag.contains("display")) {
             ItemStack copy = orig.copy();
             tag = copy.getTag();
             if (copy.hasCustomHoverName())
