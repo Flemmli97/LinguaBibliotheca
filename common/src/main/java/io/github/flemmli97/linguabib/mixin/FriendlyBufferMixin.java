@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(FriendlyByteBuf.class)
-public class FriendlyBufferMixin {
+public abstract class FriendlyBufferMixin {
 
     @ModifyVariable(method = "writeItem", at = @At("HEAD"), argsOnly = true)
     private ItemStack onStack(ItemStack stack) {

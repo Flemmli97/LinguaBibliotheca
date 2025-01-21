@@ -18,8 +18,14 @@ public abstract class ConnectionMixin {
 
     @Inject(method = "channelActive", at = @At("RETURN"))
     private void onChannel(ChannelHandlerContext channelHandlerContext, CallbackInfo ci) {
-        if(this.channel != null)
-           this.channel.attr(TranslatationUtil.CONNECTION_ATTRIBUTE_KEY)
-                .set((Connection) (Object) this);
+        if (this.channel != null)
+            this.channel.attr(TranslatationUtil.CONNECTION_ATTRIBUTE_KEY)
+                    .set((Connection) (Object) this);
+    }
+
+    @Inject(method = "channelInactive", at = @At("RETURN"))
+    private void onChannelInactive(ChannelHandlerContext channelHandlerContext, CallbackInfo ci) {
+        if (this.channel != null)
+            this.channel.attr(TranslatationUtil.CONNECTION_ATTRIBUTE_KEY).set(null);
     }
 }

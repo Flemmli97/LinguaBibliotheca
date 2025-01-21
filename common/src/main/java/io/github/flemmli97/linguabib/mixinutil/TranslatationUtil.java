@@ -24,7 +24,7 @@ public class TranslatationUtil {
     public static void handleEncode(ChannelHandlerContext ctx, boolean start) {
         if (start) {
             Connection listener = ctx.channel().attr(TranslatationUtil.CONNECTION_ATTRIBUTE_KEY).get();
-            if (listener.getPacketListener() instanceof ServerGamePacketListenerImpl impl) {
+            if (listener != null && listener.getPacketListener() instanceof ServerGamePacketListenerImpl impl) {
                 CONTEXT.set(impl.getPlayer());
             }
         } else {
