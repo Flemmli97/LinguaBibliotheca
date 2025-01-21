@@ -5,9 +5,10 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "ConnectionMixin",
-    "TranslatableContentsMixin",
+    "PacketEncoderMixin",
     "PlayerListMixin",
-    "ServerPlayerMixin"
+    "ServerPlayerMixin",
+    "TranslatableContentsMixin"
   ],
   "client": [
     "ClientLanguageAccessor"
