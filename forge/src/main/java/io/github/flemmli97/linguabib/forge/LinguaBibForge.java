@@ -7,6 +7,7 @@ import io.github.flemmli97.linguabib.data.ServerLangManager;
 import io.github.flemmli97.linguabib.network.PacketRegistrar;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -68,5 +69,14 @@ public class LinguaBibForge {
             ctx.get().enqueueWork(() -> handler.accept(p));
             ctx.get().setPacketHandled(true);
         };
+    }
+
+    public static String[] linguaBib$GetPathFromLocation(PackType type, ResourceLocation location) {
+        String[] parts = location.getPath().split("/");
+        String[] result = new String[parts.length + 2];
+        result[0] = type.getDirectory();
+        result[1] = location.getNamespace();
+        System.arraycopy(parts, 0, result, 2, parts.length);
+        return result;
     }
 }

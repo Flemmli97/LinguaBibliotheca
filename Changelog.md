@@ -1,3 +1,7 @@
+LinguaBibliotheca 1.0.1.b
+================
+- Forge: ModernFix compat
+
 LinguaBibliotheca 1.0.1
 ================
 - Fix player nullpointer
