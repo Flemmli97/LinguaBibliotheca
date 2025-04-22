@@ -7,7 +7,7 @@ buildscript {
 
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.6-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "1.10-SNAPSHOT" apply false
 }
 
 apply from: "https://raw.githubusercontent.com/Flemmli97/GradleScripts/mc-architectury-v1/changelog.gradle"
