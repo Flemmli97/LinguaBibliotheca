@@ -1,11 +1,8 @@
 # Lingua Bibliotheca
 [![Discord](https://img.shields.io/discord/790631506313478155?color=0a48c4&label=Discord)](https://discord.gg/8Cx26tfWNs)
 
-Server side translation handler with player based language support. 
-Configure the default server language in the config.
-
-If a player joins a server with this mod the server will respect the players client language, otherwise 
-the servers language will be used. 
+Server side translation handler with respecting the language of the player on the client. 
+Configure the default server language in the config. 
 
 ### For Mod(Pack) Devs
 
