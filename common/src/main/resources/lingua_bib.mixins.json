@@ -7,11 +7,12 @@
     "ComponentSerializerMixin",
     "ConnectionMixin",
     "FriendlyBufferMixin",
+    "LanguageMixin",
     "PacketEncoderMixin",
     "PlayerListMixin",
-    "ServerPlayerMixin"],
+    "ServerPlayerMixin"
+  ],
   "client": [
-    "ClientLanguageAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

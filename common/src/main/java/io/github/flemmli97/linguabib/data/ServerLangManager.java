@@ -7,7 +7,9 @@ import com.google.gson.JsonObject;
 import io.github.flemmli97.linguabib.LinguaBib;
 import io.github.flemmli97.linguabib.Platform;
 import io.github.flemmli97.linguabib.api.LanguageAPI;
+import io.github.flemmli97.linguabib.lang.LanguageWrapper;
 import io.github.flemmli97.linguabib.network.S2CLangData;
+import net.minecraft.locale.Language;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -97,7 +99,7 @@ public class ServerLangManager extends SimpleJsonResourceReloadListener {
         return res;
     }
 
-        @Override
+    @Override
     protected void apply(Map<ResourceLocation, JsonElement> data, ResourceManager manager, ProfilerFiller profiler) {
         HashMap<String, Map<String, String>> translations = new HashMap<>();
         HashMap<String, Map<String, Integer>> multilineCounter = new HashMap<>();
@@ -148,6 +150,8 @@ public class ServerLangManager extends SimpleJsonResourceReloadListener {
             invalid.forEach((k, v) -> counter.remove(k));
         });
         this.translations = ImmutableMap.copyOf(translations);
+        LanguageWrapper.updateServerLanguage(ImmutableMap.copyOf(this.translations.getOrDefault(DEFAULT_LANG, Map.of())));
+        Language.inject(Language.getInstance());
         this.multilineTracker = ImmutableMap.copyOf(multilineCounter);
     }
 }
