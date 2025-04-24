@@ -1,5 +1,6 @@
 package io.github.flemmli97.linguabib.forge.mixin;
 
+import io.github.flemmli97.linguabib.data.ServerLangManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.AbstractPackResources;
 import net.minecraft.server.packs.PackType;
@@ -25,14 +26,14 @@ public abstract class PathResourcePackMixin extends AbstractPackResources {
 
     @Inject(method = "getResource(Lnet/minecraft/server/packs/PackType;Lnet/minecraft/resources/ResourceLocation;)Ljava/io/InputStream;", at = @At("HEAD"), cancellable = true)
     private void langRes(PackType type, ResourceLocation location, CallbackInfoReturnable<InputStream> info) throws IOException {
-        if (location.getPath().startsWith("lang/")) {
+        if (location.getPath().startsWith("lang/") && ServerLangManager.FETCHING_LANG) {
             info.setReturnValue(super.getResource(type, location));
         }
     }
 
     @Inject(method = "hasResource(Lnet/minecraft/server/packs/PackType;Lnet/minecraft/resources/ResourceLocation;)Z", at = @At("HEAD"), cancellable = true)
     private void langHasRes(PackType type, ResourceLocation location, CallbackInfoReturnable<Boolean> info) {
-        if (location.getPath().startsWith("lang/")) {
+        if (location.getPath().startsWith("lang/") && ServerLangManager.FETCHING_LANG) {
             info.setReturnValue(super.hasResource(type, location));
         }
     }
