@@ -1,12 +1,13 @@
 package io.github.flemmli97.linguabib.network;
 
 import io.github.flemmli97.linguabib.LinguaBib;
-import io.github.flemmli97.linguabib.client.ClientLanguageHandler;
+import io.github.flemmli97.linguabib.lang.LanguageWrapper;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class S2CLangData implements CustomPacketPayload {
@@ -16,28 +17,28 @@ public class S2CLangData implements CustomPacketPayload {
     public static final StreamCodec<FriendlyByteBuf, S2CLangData> STREAM_CODEC = new StreamCodec<>() {
         @Override
         public S2CLangData decode(FriendlyByteBuf buf) {
-            return new S2CLangData(buf.readMap(FriendlyByteBuf::readUtf, FriendlyByteBuf::readUtf),
-                    buf.readMap(FriendlyByteBuf::readUtf, FriendlyByteBuf::readUtf));
+            return new S2CLangData(buf.readMap(FriendlyByteBuf::readUtf, FriendlyByteBuf::readUtf));
         }
 
         @Override
         public void encode(FriendlyByteBuf buf, S2CLangData pkt) {
-            buf.writeMap(pkt.fallback, FriendlyByteBuf::writeUtf, FriendlyByteBuf::writeUtf);
-            buf.writeMap(pkt.language, FriendlyByteBuf::writeUtf, FriendlyByteBuf::writeUtf);
-            ;
+            buf.writeMap(pkt.translation, FriendlyByteBuf::writeUtf, FriendlyByteBuf::writeUtf);
         }
     };
 
-    private final Map<String, String> fallback;
-    private final Map<String, String> language;
+    private final Map<String, String> translation;
 
     public S2CLangData(Map<String, String> fallback, Map<String, String> language) {
-        this.fallback = fallback;
-        this.language = language;
+        this.translation = new HashMap<>(language);
+        fallback.forEach(this.translation::putIfAbsent);
+    }
+
+    private S2CLangData(Map<String, String> translation) {
+        this.translation = translation;
     }
 
     public static void handle(S2CLangData pkt) {
-        ClientLanguageHandler.updateLanguage(pkt.fallback, pkt.language);
+        LanguageWrapper.updateServerLanguage(pkt.translation);
     }
 
     @Override
