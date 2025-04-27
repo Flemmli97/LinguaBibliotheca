@@ -56,7 +56,6 @@ dependencies {
 processResources {
     inputs.property "version", project.version
 
-    def loader_version = (forge_version =~ /([0-9]+)\.([0-9]+)\.([0-9]+)/)[0][1]
     filesMatching("META-INF/mods.toml") {
         expand mod_meta
     }
