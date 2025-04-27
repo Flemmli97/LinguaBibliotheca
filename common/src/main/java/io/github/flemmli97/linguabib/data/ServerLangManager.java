@@ -25,6 +25,8 @@ public class ServerLangManager extends SimpleJsonResourceReloadListener {
     private static final String DIRECTORY = "lang";
     private static final String DEFAULT_LANG = "en_us";
 
+    public static boolean FETCHING_LANG;
+
     private Map<String, Map<String, String>> translations = ImmutableMap.of();
     private Map<String, Map<String, Integer>> multilineTracker = ImmutableMap.of();
 
@@ -89,7 +91,10 @@ public class ServerLangManager extends SimpleJsonResourceReloadListener {
 
     @Override
     protected Map<ResourceLocation, JsonElement> prepare(ResourceManager resourceManager, ProfilerFiller profiler) {
-        return super.prepare(resourceManager, profiler);
+        FETCHING_LANG = true;
+        Map<ResourceLocation, JsonElement> res = super.prepare(resourceManager, profiler);
+        FETCHING_LANG = false;
+        return res;
     }
 
     @Override

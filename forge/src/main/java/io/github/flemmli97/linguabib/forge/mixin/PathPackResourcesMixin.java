@@ -1,5 +1,6 @@
 package io.github.flemmli97.linguabib.forge.mixin;
 
+import io.github.flemmli97.linguabib.data.ServerLangManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackType;
@@ -32,7 +33,7 @@ public abstract class PathPackResourcesMixin {
      */
     @ModifyVariable(method = "listResources", at = @At(value = "HEAD"), argsOnly = true)
     private PackResources.ResourceOutput langRes(PackResources.ResourceOutput orig, PackType type, String namespace, String path) {
-        if (path.equals("lang")) {
+        if (path.equals("lang") && ServerLangManager.FETCHING_LANG) {
             return (res, o) -> {
                 Path target = this.resolve(getPathFromLocation(type, res));
                 orig.accept(res, () -> Files.newInputStream(target));
