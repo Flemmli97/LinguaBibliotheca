@@ -1,3 +1,7 @@
+LinguaBibliotheca 1.0.3
+================
+- Add the translation to vanilla language handling fixing missing translation in console
+
 LinguaBibliotheca 1.0.2
 ================
 - Fix fabric packet
