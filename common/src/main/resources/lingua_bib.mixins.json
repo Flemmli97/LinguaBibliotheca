@@ -3,9 +3,16 @@
   "minVersion": "0.8",
   "package": "io.github.flemmli97.linguabib.mixin",
   "compatibilityLevel": "JAVA_16",
-  "mixins": ["ComponentSerializerMixin", "ConnectionMixin", "FriendlyBufferMixin", "PacketEncoderMixin", "PlayerListMixin", "ServerPlayerMixin"],
+  "mixins": [
+    "ComponentSerializerMixin",
+    "ConnectionMixin",
+    "FriendlyBufferMixin",
+    "LanguageMixin",
+    "PacketEncoderMixin",
+    "PlayerListMixin",
+    "ServerPlayerMixin"
+  ],
   "client": [
-    "ClientLanguageAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
