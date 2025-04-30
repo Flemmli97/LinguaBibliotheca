@@ -5,13 +5,13 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "ConnectionMixin",
+    "LanguageMixin",
     "PacketEncoderMixin",
     "PlayerListMixin",
     "ServerPlayerMixin",
     "TranslatableContentsMixin"
   ],
   "client": [
-    "ClientLanguageAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
