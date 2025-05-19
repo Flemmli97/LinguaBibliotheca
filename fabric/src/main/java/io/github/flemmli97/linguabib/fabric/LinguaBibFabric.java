@@ -31,9 +31,9 @@ public class LinguaBibFabric implements ModInitializer {
             }
 
             @Override
-            public CompletableFuture<Void> reload(PreparationBarrier preparationBarrier, ResourceManager resourceManager, ProfilerFiller preparationsProfiler, ProfilerFiller reloadProfiler, Executor backgroundExecutor, Executor gameExecutor) {
+            public CompletableFuture<Void> reload(PreparationBarrier preparationBarrier, ResourceManager resourceManager, Executor backgroundExecutor, Executor gameExecutor) {
                 return ServerLangManager.INSTANCE
-                        .reload(preparationBarrier, resourceManager, preparationsProfiler, reloadProfiler, backgroundExecutor, gameExecutor);
+                        .reload(preparationBarrier, resourceManager, backgroundExecutor, gameExecutor);
             }
         });
         PayloadTypeRegistry.playS2C().register(S2CLangData.TYPE, S2CLangData.STREAM_CODEC);

@@ -22,7 +22,7 @@ loom {
             vmArgs "-Dmixin.debug.export=true"
         }
         data {
-            data()
+            clientData()
             programArgs "--all", "--mod", "lingua_bib"
             programArgs "--output", project(":common").file("src/generated/resources").absolutePath
         }

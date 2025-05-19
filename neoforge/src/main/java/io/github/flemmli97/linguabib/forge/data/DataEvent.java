@@ -10,9 +10,8 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 public class DataEvent {
 
     @SubscribeEvent
-    public static void data(GatherDataEvent event) {
-        DataGenerator data = event.getGenerator();
-        data.addProvider(event.includeServer(), new ENLangGen(data.getPackOutput()));
+    public static void data(GatherDataEvent.Server event) {
+        event.createProvider(ENLangGen::new);
     }
 
 }
