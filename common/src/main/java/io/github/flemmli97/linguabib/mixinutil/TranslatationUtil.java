@@ -60,8 +60,13 @@ public class TranslatationUtil {
             if (display.contains("Lore", CompoundTag.TAG_LIST)) {
                 ListTag lore = display.getList("Lore", CompoundTag.TAG_STRING);
                 for (int i = 0; i < lore.size(); i++) {
-                    Component comp = Component.Serializer.fromJson(lore.getString(i));
-                    lore.set(i, StringTag.valueOf(Component.Serializer.toJson(comp)));
+                    try {
+                        // Catch exception in case of faulty lore lines. Vanilla does it too already (ItemStack#getTooltipLines)
+                        Component comp = Component.Serializer.fromJson(lore.getString(i));
+                        if (comp != null) {
+                            lore.set(i, StringTag.valueOf(Component.Serializer.toJson(comp)));
+                        }
+                    } catch (Exception ignored) {}
                 }
             }
             return copy;

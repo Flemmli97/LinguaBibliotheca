@@ -1,3 +1,7 @@
+LinguaBibliotheca 1.0.4
+================
+- Wrap ItemStack lore component when trying to translate
+
 LinguaBibliotheca 1.0.3
 ================
 - Only modify language fetching when needed fixing broken translation on server
