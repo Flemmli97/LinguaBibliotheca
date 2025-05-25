@@ -16,6 +16,25 @@ architectury {
     minecraft = rootProject.minecraft_version
 }
 
+allprojects {
+    apply plugin: "java"
+    apply plugin: "architectury-plugin"
+    apply plugin: "maven-publish"
+
+    archivesBaseName = rootProject.archives_base_name
+    version = project.minecraft_version + "-" + rootProject.mod_version
+    group = rootProject.maven_group
+
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+        options.release = 17
+    }
+
+    java {
+        withSourcesJar()
+    }
+}
+
 subprojects {
     apply plugin: "dev.architectury.loom"
 
@@ -34,24 +53,30 @@ subprojects {
             parchment("org.parchmentmc.data:parchment-${rootProject.parchment_version}@zip")
         }
     }
-}
 
-allprojects {
-    apply plugin: "java"
-    apply plugin: "architectury-plugin"
-    apply plugin: "maven-publish"
-
-    archivesBaseName = rootProject.archives_base_name
-    version = project.minecraft_version + "-" + rootProject.mod_version
-    group = rootProject.maven_group
-
-    tasks.withType(JavaCompile) {
-        options.encoding = "UTF-8"
-        options.release = 17
-    }
-
-    java {
-        withSourcesJar()
+    publishing {
+        repositories {
+            def token = project.findProperty('maven.token') ?: System.getenv('BLAZING_COOP_MAVEN_TOKEN')
+            if (token) {
+                maven {
+                    url 'https://maven.blazing-coop.net/releases'
+                    credentials {
+                        username = project.findProperty('maven.user') ?: System.getenv('BLAZING_COOP_MAVEN_USER')
+                        password = token
+                    }
+                }
+            }
+            token = project.findProperty('gpr.gitlab.token') ?: System.getenv('GPR_GITLAB_TOKEN')
+            if (token) {
+                maven {
+                    url 'https://gitlab.com/api/v4/projects/21830712/packages/maven'
+                    credentials {
+                        username = project.findProperty('gpr.user') ?: System.getenv('GPR_USER')
+                        password = token
+                    }
+                }
+            }
+        }
     }
 }
 
