@@ -107,14 +107,4 @@ publishing {
             version project.version + "-forge"
         }
     }
-
-    repositories {
-        maven {
-            url "https://maven.blazing-coop.net/releases"
-            credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("GPR_USER")
-                password = project.findProperty("gpr.gitlab.token") ?: System.getenv("GPR_GITLAB_TOKEN")
-            }
-        }
-    }
 }
