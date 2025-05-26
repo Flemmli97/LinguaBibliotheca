@@ -19,6 +19,6 @@ side="BOTH"
 [[dependencies.lingua_bib]]
 modId="neoforge"
 type="required"
-versionRange="[${forge_version},)"
+versionRange = "[${neoforge_version},)"
 ordering="NONE"
 side="BOTH"

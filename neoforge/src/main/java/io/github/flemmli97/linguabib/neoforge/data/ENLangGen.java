@@ -1,4 +1,4 @@
-package io.github.flemmli97.linguabib.forge.data;
+package io.github.flemmli97.linguabib.neoforge.data;
 
 import io.github.flemmli97.linguabib.LinguaBib;
 import io.github.flemmli97.linguabib.api.ServerLangGen;

@@ -7,7 +7,7 @@ public interface Platform {
 
     Platform INSTANCE = LinguaBib.getPlatformInstance(Platform.class,
             "io.github.flemmli97.linguabib.fabric.PlatformImpl",
-            "io.github.flemmli97.linguabib.forge.PlatformImpl");
+            "io.github.flemmli97.linguabib.neoforge.PlatformImpl");
 
     boolean hasRemote(ServerPlayer player);
 

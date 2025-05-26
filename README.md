@@ -41,7 +41,7 @@ dependencies {
     // Fabric/Loom==========    
     modImplementation include("io.github.flemmli97:lingua_bib:${minecraft_version}-${mod_version}-${mod_loader}")
     
-    // Forge==========    
+    // NeoForge/Forge==========    
     // Ideally use jar in jar
     compile fg.deobf("io.github.flemmli97:lingua_bib:${minecraft_version}-${mod_version}-${mod_loader}")
 }

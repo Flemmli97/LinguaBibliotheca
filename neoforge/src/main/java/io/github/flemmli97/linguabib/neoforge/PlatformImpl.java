@@ -1,4 +1,4 @@
-package io.github.flemmli97.linguabib.forge;
+package io.github.flemmli97.linguabib.neoforge;
 
 import io.github.flemmli97.linguabib.Platform;
 import io.github.flemmli97.linguabib.network.S2CLangData;

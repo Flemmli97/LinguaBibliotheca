@@ -1,4 +1,4 @@
-package io.github.flemmli97.linguabib.forge;
+package io.github.flemmli97.linguabib.neoforge;
 
 import io.github.flemmli97.linguabib.LinguaBib;
 import io.github.flemmli97.linguabib.data.Config;
@@ -18,13 +18,13 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 @Mod(value = LinguaBib.MODID)
-public class LinguaBibForge {
+public class LinguaBibNeoForge {
 
-    public LinguaBibForge(IEventBus modBus) {
-        modBus.addListener(LinguaBibForge::registerPackets);
-        NeoForge.EVENT_BUS.addListener(LinguaBibForge::addReloadListener);
-        NeoForge.EVENT_BUS.addListener(LinguaBibForge::commands);
-        NeoForge.EVENT_BUS.addListener(LinguaBibForge::login);
+    public LinguaBibNeoForge(IEventBus modBus) {
+        modBus.addListener(LinguaBibNeoForge::registerPackets);
+        NeoForge.EVENT_BUS.addListener(LinguaBibNeoForge::addReloadListener);
+        NeoForge.EVENT_BUS.addListener(LinguaBibNeoForge::commands);
+        NeoForge.EVENT_BUS.addListener(LinguaBibNeoForge::login);
         Config.handleConfigFile(FMLPaths.CONFIGDIR.get());
         LinguaBib.ftbRanks = ModList.get().isLoaded("ftbranks");
     }
