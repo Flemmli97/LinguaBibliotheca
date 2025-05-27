@@ -11,7 +11,7 @@ import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -29,8 +29,8 @@ public class LinguaBibNeoForge {
         LinguaBib.ftbRanks = ModList.get().isLoaded("ftbranks");
     }
 
-    public static void addReloadListener(AddReloadListenerEvent event) {
-        event.addListener(ServerLangManager.INSTANCE);
+    public static void addReloadListener(AddServerReloadListenersEvent event) {
+        event.addListener(ServerLangManager.ID, ServerLangManager.INSTANCE);
     }
 
     public static void commands(RegisterCommandsEvent event) {

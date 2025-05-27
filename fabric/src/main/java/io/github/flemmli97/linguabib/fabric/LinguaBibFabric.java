@@ -15,7 +15,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.util.profiling.ProfilerFiller;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -25,15 +24,16 @@ public class LinguaBibFabric implements ModInitializer {
     @Override
     public void onInitialize() {
         ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new IdentifiableResourceReloadListener() {
+
             @Override
             public ResourceLocation getFabricId() {
-                return ResourceLocation.fromNamespaceAndPath(LinguaBib.MODID, "translations");
+                return ServerLangManager.ID;
             }
 
             @Override
-            public CompletableFuture<Void> reload(PreparationBarrier preparationBarrier, ResourceManager resourceManager, ProfilerFiller preparationsProfiler, ProfilerFiller reloadProfiler, Executor backgroundExecutor, Executor gameExecutor) {
+            public CompletableFuture<Void> reload(PreparationBarrier barrier, ResourceManager manager, Executor backgroundExecutor, Executor gameExecutor) {
                 return ServerLangManager.INSTANCE
-                        .reload(preparationBarrier, resourceManager, preparationsProfiler, reloadProfiler, backgroundExecutor, gameExecutor);
+                        .reload(barrier, manager, backgroundExecutor, gameExecutor);
             }
         });
         PayloadTypeRegistry.playS2C().register(S2CLangData.TYPE, S2CLangData.STREAM_CODEC);

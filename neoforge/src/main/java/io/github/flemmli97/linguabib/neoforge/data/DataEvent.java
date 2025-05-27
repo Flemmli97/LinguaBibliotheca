@@ -10,9 +10,9 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 public class DataEvent {
 
     @SubscribeEvent
-    public static void data(GatherDataEvent event) {
+    public static void data(GatherDataEvent.Server event) {
         DataGenerator data = event.getGenerator();
-        data.addProvider(event.includeServer(), new ENLangGen(data.getPackOutput()));
+        data.addProvider(true, new ENLangGen(data.getPackOutput()));
     }
 
 }
