@@ -5,13 +5,14 @@ import io.github.flemmli97.linguabib.data.Config;
 import io.github.flemmli97.linguabib.data.LinguaCommands;
 import io.github.flemmli97.linguabib.data.ServerLangManager;
 import io.github.flemmli97.linguabib.network.S2CLangData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -29,8 +30,8 @@ public class LinguaBibForge {
         LinguaBib.ftbRanks = ModList.get().isLoaded("ftbranks");
     }
 
-    public static void addReloadListener(AddReloadListenerEvent event) {
-        event.addListener(ServerLangManager.INSTANCE);
+    public static void addReloadListener(AddServerReloadListenersEvent event) {
+        event.addListener(ResourceLocation.fromNamespaceAndPath(LinguaBib.MODID, "lang"),ServerLangManager.INSTANCE);
     }
 
     public static void commands(RegisterCommandsEvent event) {

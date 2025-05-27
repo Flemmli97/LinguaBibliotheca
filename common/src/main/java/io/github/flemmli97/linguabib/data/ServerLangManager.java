@@ -1,7 +1,6 @@
 package io.github.flemmli97.linguabib.data;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.github.flemmli97.linguabib.LinguaBib;
@@ -10,6 +9,7 @@ import io.github.flemmli97.linguabib.api.LanguageAPI;
 import io.github.flemmli97.linguabib.lang.LanguageWrapper;
 import io.github.flemmli97.linguabib.network.S2CLangData;
 import net.minecraft.locale.Language;
+import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -22,7 +22,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ServerLangManager extends SimpleJsonResourceReloadListener {
+import static net.minecraft.util.ExtraCodecs.JSON;
+
+public class ServerLangManager extends SimpleJsonResourceReloadListener<JsonElement> {
 
     private static final String DIRECTORY = "lang";
     private static final String DEFAULT_LANG = "en_us";
@@ -35,7 +37,7 @@ public class ServerLangManager extends SimpleJsonResourceReloadListener {
     public static final ServerLangManager INSTANCE = new ServerLangManager();
 
     private ServerLangManager() {
-        super(new GsonBuilder().create(), DIRECTORY);
+        super(JSON, FileToIdConverter.json(DIRECTORY));
     }
 
     public static void onServerLangUpdate(MinecraftServer server) {
