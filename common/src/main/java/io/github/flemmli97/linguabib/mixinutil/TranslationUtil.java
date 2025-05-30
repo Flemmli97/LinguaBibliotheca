@@ -11,14 +11,14 @@ import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 
-public class TranslatationUtil {
+public class TranslationUtil {
 
     public static final AttributeKey<Connection> CONNECTION_ATTRIBUTE_KEY = AttributeKey.newInstance("linguabib:connection_ctx");
     private static final ThreadLocal<ServerPlayer> CONTEXT = new ThreadLocal<>();
 
     public static void handleEncode(ChannelHandlerContext ctx, boolean start) {
         if (start) {
-            Connection listener = ctx.channel().attr(TranslatationUtil.CONNECTION_ATTRIBUTE_KEY).get();
+            Connection listener = ctx.channel().attr(TranslationUtil.CONNECTION_ATTRIBUTE_KEY).get();
             if (listener != null && listener.getPacketListener() instanceof ServerGamePacketListenerImpl impl) {
                 CONTEXT.set(impl.getPlayer());
             }
