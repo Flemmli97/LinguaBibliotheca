@@ -38,8 +38,13 @@ public class TranslationUtil {
      */
     public static Component modifyComponent(Component orig) {
         ServerPlayer player = CONTEXT.get();
-        if (!LinguaBib.disableComponentMod && player != null && orig.getContents() instanceof TranslatableContents trans && !Platform.INSTANCE.hasRemote(player)) {
-            return Component.translatable(ServerLangManager.INSTANCE.getTranslationFor(LanguageAPI.getPlayerLanguage(player), trans.getKey()), trans.getArgs()).setStyle(orig.getStyle());
+        if (!LinguaBib.disableComponentMod && player != null && orig.getContents() instanceof TranslatableContents contents && !Platform.INSTANCE.hasRemote(player)) {
+            if (contents.getFallback() != null)
+                return orig;
+            String translation = ServerLangManager.INSTANCE.getTranslationFor(LanguageAPI.getPlayerLanguage(player), contents.getKey());
+            if (translation.equals(contents.getKey()))
+                return orig;
+            return Component.translatableWithFallback(translation, contents.getFallback(), contents.getArgs()).setStyle(orig.getStyle());
         }
         return orig;
     }
