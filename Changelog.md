@@ -1,3 +1,7 @@
+LinguaBibliotheca 1.0.5
+================
+- Fix fallback handling breaking various translations
+
 LinguaBibliotheca 1.0.3
 ================
 - Update to 1.21.5  
