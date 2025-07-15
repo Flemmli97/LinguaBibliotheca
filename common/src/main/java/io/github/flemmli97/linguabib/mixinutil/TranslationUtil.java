@@ -34,8 +34,12 @@ public class TranslationUtil {
     public static TranslatableContents modifyComponent(TranslatableContents orig) {
         ServerPlayer player = CONTEXT.get();
         if (!LinguaBib.disableComponentMod && player != null && !Platform.INSTANCE.hasRemote(player)) {
-            return new TranslatableContents(orig.getKey(),
-                    ServerLangManager.INSTANCE.getTranslationFor(LanguageAPI.getPlayerLanguage(player), orig.getKey()), orig.getArgs());
+            if (orig.getFallback() != null)
+                return orig;
+            String translation = ServerLangManager.INSTANCE.getTranslationFor(LanguageAPI.getPlayerLanguage(player), orig.getKey());
+            if (translation.equals(orig.getKey()))
+                return orig;
+            return new TranslatableContents(orig.getKey(), translation, orig.getArgs());
         }
         return orig;
     }
