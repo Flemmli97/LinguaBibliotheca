@@ -23,7 +23,7 @@ public class LanguageWrapper extends Language {
     @Override
     public String getOrDefault(String key, String defaultValue) {
         String original = this.wrapped.getOrDefault(key, defaultValue);
-        if (original.equals(key) && key.equals(defaultValue)) {
+        if (key != null && key.equals(original) && key.equals(defaultValue)) {
             String server = translations.get(key);
             if (server != null)
                 return server;

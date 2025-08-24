@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(Language.class)
 public abstract class LanguageMixin {
 
-    @ModifyVariable(method = "inject", at = @At("HEAD"))
+    @ModifyVariable(method = "inject", at = @At("HEAD"), argsOnly = true)
     private static Language lang(Language orig) {
         if (!(orig instanceof LanguageWrapper))
             return new LanguageWrapper(orig);
