@@ -1,3 +1,7 @@
+LinguaBibliotheca 1.0.6
+================
+- Add null check for language key fetching
+
 LinguaBibliotheca 1.0.5
 ================
 - Update to 1.21.8
