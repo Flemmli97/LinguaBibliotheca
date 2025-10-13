@@ -122,8 +122,7 @@ public class ServerLangManager extends SimpleJsonResourceReloadListener {
                     }
                 });
             } catch (Exception ex) {
-                LinguaBib.LOGGER.error("Couldn't parse language file {} {}", fres, ex);
-                ex.fillInStackTrace();
+                LinguaBib.LOGGER.error("Couldn't parse language file {} {}", fres, ex, ex.fillInStackTrace());
             }
         });
         // Verify that each line has a translation
