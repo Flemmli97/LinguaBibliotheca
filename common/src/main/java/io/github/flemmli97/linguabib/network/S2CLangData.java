@@ -4,6 +4,8 @@ import io.github.flemmli97.linguabib.LinguaBib;
 import io.github.flemmli97.linguabib.lang.LanguageWrapper;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.codec.StreamDecoder;
+import net.minecraft.network.codec.StreamEncoder;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
@@ -17,12 +19,12 @@ public class S2CLangData implements CustomPacketPayload {
     public static final StreamCodec<FriendlyByteBuf, S2CLangData> STREAM_CODEC = new StreamCodec<>() {
         @Override
         public S2CLangData decode(FriendlyByteBuf buf) {
-            return new S2CLangData(buf.readMap(FriendlyByteBuf::readUtf, FriendlyByteBuf::readUtf));
+            return new S2CLangData(buf.readMap(FriendlyByteBuf::readUtf, (StreamDecoder<? super FriendlyByteBuf, String>) FriendlyByteBuf::readUtf));
         }
 
         @Override
         public void encode(FriendlyByteBuf buf, S2CLangData pkt) {
-            buf.writeMap(pkt.translation, FriendlyByteBuf::writeUtf, FriendlyByteBuf::writeUtf);
+            buf.writeMap(pkt.translation, FriendlyByteBuf::writeUtf, (StreamEncoder<? super FriendlyByteBuf, String>) FriendlyByteBuf::writeUtf);
         }
     };
 

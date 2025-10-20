@@ -1,106 +1,18 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        gradlePluginPortal()
-    }
-}
-
 plugins {
-    id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.10-SNAPSHOT" apply false
-}
-
-apply from: "https://raw.githubusercontent.com/Flemmli97/GradleScripts/mc-architectury-v1/changelog.gradle"
-
-architectury {
-    minecraft = rootProject.minecraft_version
-}
-
-allprojects {
-    apply plugin: "java"
-    apply plugin: "architectury-plugin"
-    apply plugin: "maven-publish"
-
-    archivesBaseName = rootProject.archives_base_name
-    version = project.minecraft_version + "-" + rootProject.mod_version
-    group = rootProject.maven_group
-
-    tasks.withType(JavaCompile) {
-        options.encoding = "UTF-8"
-        options.release = project.hasProperty('jvm') ? rootProject.jvm : 21
-    }
-
-    java {
-        withSourcesJar()
-    }
+    id 'fabric-loom' version '1.10-SNAPSHOT' apply false
+    id 'net.neoforged.moddev' version '2.0.107' apply false
+    id 'io.github.flemmli97.multiloader.platform-common' version '1.+' apply false
 }
 
 subprojects {
-    apply plugin: "dev.architectury.loom"
-
-    loom {
-        silentMojangMappingsLicense()
-    }
-
     repositories {
-        maven { url = 'https://maven.parchmentmc.org' }
-    }
-
-    dependencies {
-        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
-        mappings loom.layered() {
-            officialMojangMappings()
-            parchment("org.parchmentmc.data:parchment-${rootProject.parchment_version}@zip")
-        }
-    }
-
-    publishing {
-        repositories {
-            def token = project.findProperty('maven.token') ?: System.getenv('BLAZING_COOP_MAVEN_TOKEN')
-            if (token) {
-                maven {
-                    url 'https://maven.blazing-coop.net/releases'
-                    credentials {
-                        username = project.findProperty('maven.user') ?: System.getenv('BLAZING_COOP_MAVEN_USER')
-                        password = token
-                    }
-                }
-            }
-            token = project.findProperty('gpr.gitlab.token') ?: System.getenv('GPR_GITLAB_TOKEN')
-            if (token) {
-                maven {
-                    url 'https://gitlab.com/api/v4/projects/21830712/packages/maven'
-                    credentials {
-                        username = project.findProperty('gpr.user') ?: System.getenv('GPR_USER')
-                        password = token
-                    }
-                }
+        mavenLocal()
+        maven {
+            name = "FTB"
+            url = "https://maven.ftb.dev/releases"
+            content {
+                includeGroup 'dev.ftb.mods'
             }
         }
     }
 }
-
-task buildAll {
-    dependsOn(":fabric:build")
-    dependsOn(":neoforge:build")
-}
-
-task cleanAll {
-    dependsOn clean
-    dependsOn(":common:clean")
-    dependsOn(":fabric:clean")
-    dependsOn(":neoforge:clean")
-}
-
-task publishAll {
-    dependsOn(":common:publish")
-    dependsOn(":fabric:publish")
-    dependsOn(":neoforge:publish")
-}
-
-task buildToLocal(group: "publishing") {
-    dependsOn cleanAll, buildAll, ":common:publishToMavenLocal", ":fabric:publishToMavenLocal", ":neoforge:publishToMavenLocal"
-}
-
-buildAll.dependsOn cleanAll
-publishAll.dependsOn buildAll
