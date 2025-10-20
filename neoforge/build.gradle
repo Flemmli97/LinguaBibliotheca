@@ -1,109 +1,17 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2/" }
-    }
-    dependencies {
-        classpath "group": "com.github.johnrengelman", "name": "shadow", "version": "8.+"
-    }
+plugins {
+    id 'io.github.flemmli97.multiloader.platform-neoforge'
 }
 
-apply plugin: com.github.jengelman.gradle.plugins.shadow.ShadowPlugin
-apply from: "https://raw.githubusercontent.com/Flemmli97/GradleScripts/mc-architectury-v1/changelog.gradle"
-
-architectury {
-    platformSetupLoomIde()
-    neoForge()
-}
-
-loom {
+neoForge {
     runs {
-        client {
-            vmArgs "-Dmixin.debug.export=true"
-        }
+        var common = project(":common")
         data {
             data()
-            programArgs "--all", "--mod", "lingua_bib"
-            programArgs "--output", project(":common").file("src/generated/resources").absolutePath
+            programArguments.addAll "--all", "--mod", "lingua_bib"
+            programArguments.addAll "--output", common.file("src/generated/resources").absolutePath
         }
-    }
-}
-
-ext {
-    mod_meta = ["version": project.version, "loader_version": neo_loader_version, "mcversion": minecraft_version, "neoforge_version": neoforge_version]
-}
-
-configurations {
-    common
-    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
-    compileClasspath.extendsFrom common
-    runtimeClasspath.extendsFrom common
-    developmentNeoForge.extendsFrom common
-}
-
-repositories {
-    maven { url "https://maven.neoforged.net/releases/" }
-}
-
-dependencies {
-    neoForge "net.neoforged:neoforge:${neoforge_version}"
-
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
-}
-
-processResources {
-    inputs.property "version", project.version
-
-    filesMatching("META-INF/neoforge.mods.toml") {
-        expand mod_meta
-    }
-    exclude '.cache'
-}
-
-shadowJar {
-    exclude "fabric.mod.json"
-
-    configurations = [project.configurations.shadowCommon]
-    archiveClassifier.set("dev-shadow")
-}
-
-remapJar {
-    input.set shadowJar.archiveFile
-    dependsOn shadowJar
-    archiveClassifier.set("neoforge")
-}
-
-jar {
-    archiveClassifier.set("dev")
-}
-
-sourcesJar {
-    def commonSources = project(":common").sourcesJar
-    dependsOn commonSources
-    from commonSources.archiveFile.map { zipTree(it) }
-    archiveClassifier.set("neoforge-sources")
-}
-
-components.java {
-    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
-        skip()
-    }
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact(remapJar) {
-                classifier null
-                builtBy remapJar
-            }
-            artifact(sourcesJar) {
-                classifier "sources"
-                builtBy remapSourcesJar
-            }
-            artifactId project.archives_base_name
-            version project.version + "-neoforge"
+        client {
+            jvmArgument "-XX:+AllowEnhancedClassRedefinition"
         }
     }
 }
