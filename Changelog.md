@@ -1,5 +1,6 @@
 LinguaBibliotheca 1.0.6
 ================
+- Update to 1.21.10 [@Wesley1808](https://github.com/Wesley1808)
 - Add null check for language key fetching
 
 LinguaBibliotheca 1.0.5
