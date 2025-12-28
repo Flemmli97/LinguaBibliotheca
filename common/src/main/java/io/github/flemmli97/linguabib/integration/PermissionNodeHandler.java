@@ -2,9 +2,10 @@ package io.github.flemmli97.linguabib.integration;
 
 import dev.ftb.mods.ftbranks.api.FTBRanksAPI;
 import io.github.flemmli97.linguabib.LinguaBib;
-import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.permissions.PermissionLevel;
+import net.minecraft.server.permissions.Permissions;
 
 public class PermissionNodeHandler {
 
@@ -19,11 +20,11 @@ public class PermissionNodeHandler {
     public static boolean perm(CommandSourceStack src, String perm, boolean adminCmd) {
         if (LinguaBib.permissionAPI) {
             if (adminCmd)
-                return Permissions.check(src, perm, 2);
-            return Permissions.check(src, perm, true);
+                return me.lucko.fabric.api.permissions.v0.Permissions.check(src, perm, PermissionLevel.GAMEMASTERS);
+            return me.lucko.fabric.api.permissions.v0.Permissions.check(src, perm, true);
         }
         if (!LinguaBib.ftbRanks || !(src.getEntity() instanceof ServerPlayer player))
-            return !adminCmd || src.hasPermission(2);
-        return FTBRanksAPI.getPermissionValue(player, perm).asBoolean().orElse(!adminCmd || player.hasPermissions(2));
+            return !adminCmd || src.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER);
+        return FTBRanksAPI.getPermissionValue(player, perm).asBoolean().orElse(!adminCmd || player.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER));
     }
 }

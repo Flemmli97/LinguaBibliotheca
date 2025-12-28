@@ -10,7 +10,7 @@ import io.github.flemmli97.linguabib.lang.LanguageWrapper;
 import io.github.flemmli97.linguabib.network.S2CLangData;
 import net.minecraft.locale.Language;
 import net.minecraft.resources.FileToIdConverter;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class ServerLangManager extends SimpleJsonResourceReloadListener<JsonElement> {
 
-    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(LinguaBib.MODID, "translations");
+    public static final Identifier ID = Identifier.fromNamespaceAndPath(LinguaBib.MODID, "translations");
     private static final String DIRECTORY = "lang";
     private static final String DEFAULT_LANG = "en_us";
 
@@ -92,7 +92,7 @@ public class ServerLangManager extends SimpleJsonResourceReloadListener<JsonElem
     }
 
     @Override
-    protected void apply(Map<ResourceLocation, JsonElement> data, ResourceManager manager, ProfilerFiller profiler) {
+    protected void apply(Map<Identifier, JsonElement> data, ResourceManager manager, ProfilerFiller profiler) {
         HashMap<String, Map<String, String>> translations = new HashMap<>();
         HashMap<String, Map<String, Integer>> multilineCounter = new HashMap<>();
         data.forEach((fres, el) -> {

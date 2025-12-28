@@ -7,14 +7,14 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.codec.StreamDecoder;
 import net.minecraft.network.codec.StreamEncoder;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class S2CLangData implements CustomPacketPayload {
 
-    public static final Type<S2CLangData> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(LinguaBib.MODID, "s2c_language_data"));
+    public static final Type<S2CLangData> TYPE = new Type<>(Identifier.fromNamespaceAndPath(LinguaBib.MODID, "s2c_language_data"));
 
     public static final StreamCodec<FriendlyByteBuf, S2CLangData> STREAM_CODEC = new StreamCodec<>() {
         @Override
