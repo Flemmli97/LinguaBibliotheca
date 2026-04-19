@@ -25,7 +25,7 @@
     "lingua_bib.mixins.json"
   ],
   "depends": {
-    "fabric": ">=${fabric_version}",
+    "fabric-api": ">=${fabric_version}",
     "minecraft": ">=${mcversion}"
   }
 }
