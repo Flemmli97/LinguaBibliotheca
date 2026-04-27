@@ -2,8 +2,19 @@ plugins {
     id 'io.github.flemmli97.multiloader.platform-common'
 }
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     commonDependency("dev.ftb.mods:ftb-ranks-neoforge:${ftb_ranks}") {
         transitive = false
     }
+    commonDependency("me.lucko:fabric-permissions-api:${fabric_permissions_api}") {
+        transitive = false
+    }
+}
+
+sourceSets.main.resources {
+    srcDir "src/generated/resources"
 }

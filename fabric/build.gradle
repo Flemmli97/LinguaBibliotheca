@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom'
+    id 'net.fabricmc.fabric-loom'
     id 'io.github.flemmli97.multiloader.platform-fabric'
 }
 
@@ -9,12 +9,4 @@ loom {
             vmArgs "-XX:+AllowEnhancedClassRedefinition"
         }
     }
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    remapCommon(modCompileOnly("me.lucko:fabric-permissions-api:${fabric_permissions_api}"))
 }

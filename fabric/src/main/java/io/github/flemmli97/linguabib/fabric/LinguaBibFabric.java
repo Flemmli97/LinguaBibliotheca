@@ -16,8 +16,8 @@ public class LinguaBibFabric implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        DataResourceLoader.get().registerReloader(ServerLangManager.ID, ServerLangManager.INSTANCE);
-        PayloadTypeRegistry.playS2C().register(S2CLangData.TYPE, S2CLangData.STREAM_CODEC);
+        DataResourceLoader.get().registerReloadListener(ServerLangManager.ID, ServerLangManager.INSTANCE);
+        PayloadTypeRegistry.clientboundPlay().register(S2CLangData.TYPE, S2CLangData.STREAM_CODEC);
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> LinguaCommands.register(dispatcher));
         ServerPlayConnectionEvents.JOIN.register(((handler, sender, server) -> ServerLangManager.syncServerLangs(handler.player)));
         Config.handleConfigFile(FabricLoader.getInstance().getConfigDir());

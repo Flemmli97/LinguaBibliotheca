@@ -35,7 +35,7 @@ public class LanguageAPI {
      * This is helpful cause vanilla does not support linebreaks when displaying components
      * so the component needs to be split up into multiple ones
      * <p>
-     * <b>Explicit support for multiline translation is required. Its NOT done automatically!</b>
+     * <b>Explicit support for multiline translation is required. It's NOT done automatically!</b>
      *
      * @param language The language selected
      * @param key      The translation key

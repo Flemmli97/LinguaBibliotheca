@@ -1,12 +1,17 @@
 plugins {
-    id 'fabric-loom' version '1.14-SNAPSHOT' apply false
-    id 'net.neoforged.moddev' version '2.0.134' apply false
-    id 'io.github.flemmli97.multiloader.platform-common' version '1.+' apply false
+    id 'net.fabricmc.fabric-loom' version '1.15-SNAPSHOT' apply false
+    id 'net.neoforged.moddev' version '2.0.141' apply false
+    id 'io.github.flemmli97.multiloader.platform-common' version '2.+' apply false
 }
 
 subprojects {
     repositories {
         mavenLocal()
+        mavenCentral() {
+            content {
+                includeGroup 'me.lucko'
+            }
+        }
         maven {
             name = "FTB"
             url = "https://maven.ftb.dev/releases"
